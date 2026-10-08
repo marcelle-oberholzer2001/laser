@@ -34,6 +34,7 @@
     <nav class="site-nav" id="site-nav">
       <a href="#about">About</a>
       <a href="#prices">Prices</a>
+      <a href="#build">Packages</a>
       <a href="#care">Before &amp; After</a>
       <a href="#faq">FAQ</a>
       <a href="#visit">Visit</a>
@@ -114,7 +115,47 @@
     </div>
   </section>
 
-  <section class="section tint" id="care">
+  <section class="section tint" id="build">
+    <div class="wrap">
+      <p class="eyebrow">Build your own package</p>
+      <h2>More areas, bigger savings</h2>
+      <p class="section-intro">Can't find the combination you want? Treat any areas together in one visit and the discount grows with every area you add.</p>
+
+      <ol class="ladder" id="ladder"></ol>
+
+      <div class="builder">
+        <div class="builder-pick">
+          <div class="seg" role="radiogroup" aria-label="Prices for">
+            <label><input type="radio" name="who" value="w" checked> Ladies</label>
+            <label><input type="radio" name="who" value="m"> Gents</label>
+          </div>
+          <div id="builder-groups"></div>
+        </div>
+
+        <aside class="builder-sum" id="builder-sum" aria-live="polite">
+          <h3>Your package</h3>
+          <ul class="sum-list" id="sum-list"></ul>
+          <dl class="sum-lines">
+            <dt>Areas</dt><dd id="sum-count">0</dd>
+            <dt>Normal price</dt><dd id="sum-sub">R 0</dd>
+            <dt>Package discount</dt><dd id="sum-disc">—</dd>
+          </dl>
+          <div class="sum-total"><span>You pay per session</span><strong id="sum-total">R 0</strong></div>
+          <p class="sum-hint" id="sum-hint">Choose two or more areas to unlock a discount.</p>
+          <a class="btn btn-dark js-fresha" href="#" target="_blank" rel="noopener">Book on Fresha</a>
+          <button type="button" class="link-btn" id="sum-clear">Clear selection</button>
+        </aside>
+      </div>
+
+      <a class="sum-bar" id="sum-bar" href="#builder-sum" hidden>
+        <span id="sum-bar-text"></span><span>View total ↓</span>
+      </a>
+
+      <p class="note">Package prices are rounded to the nearest R10 and confirmed at your consultation. Overlapping areas (for example Full Legs and Lower Legs) only count once.</p>
+    </div>
+  </section>
+
+  <section class="section" id="care">
     <div class="wrap">
       <p class="eyebrow">Prepare &amp; aftercare</p>
       <h2>Before and after your session</h2>
@@ -145,7 +186,7 @@
     </div>
   </section>
 
-  <section class="section" id="faq">
+  <section class="section tint" id="faq">
     <div class="wrap narrow">
       <p class="eyebrow">Questions</p>
       <h2>Good to know</h2>
@@ -178,7 +219,7 @@
     </div>
   </section>
 
-  <section class="section tint" id="visit">
+  <section class="section" id="visit">
     <div class="wrap visit">
       <div>
         <p class="eyebrow">Visit</p>

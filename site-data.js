@@ -20,6 +20,17 @@ const SITE = {
   instagram: "",      // handle without @
 };
 
+// Build-your-own package: number of areas → % off.
+// Anything above the last entry gets the last entry's discount.
+const PACKAGE_DISCOUNTS = [
+  [2, 15],
+  [3, 20],
+  [4, 25],
+  [5, 30],
+  [6, 35],
+  [7, 40],
+];
+
 const PRICE_CATEGORIES = [
   {
     id: "face",
@@ -125,7 +136,7 @@ const PRICE_CATEGORIES = [
   {
     id: "packages",
     title: "Packages",
-    tagline: "Combine areas in one visit and save.",
+    tagline: "Popular combinations, ready to book. Want a different mix? Build your own below.",
     items: [
       ["Lip & Chin", 240, 320],
       ["Lip, Chin & Sideburns (lower face)", 360, 480],
