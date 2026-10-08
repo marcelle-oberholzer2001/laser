@@ -89,6 +89,91 @@
     if (n) { e.preventDefault(); n.focus(); select(n); }
   });
 
+  // Build-your-own package
+  const maxTier = PACKAGE_DISCOUNTS[PACKAGE_DISCOUNTS.length - 1];
+  const discountFor = (n) => {
+    let pct = 0;
+    PACKAGE_DISCOUNTS.forEach(([areas, p]) => { if (n >= areas) pct = p; });
+    return pct;
+  };
+
+  $("#ladder").innerHTML = PACKAGE_DISCOUNTS.map(([n, p]) => `
+    <li data-n="${n}"><strong>${p}%</strong><span>${n}${n === maxTier[0] ? "+" : ""} areas</span></li>`).join("");
+
+  const buildCats = PRICE_CATEGORIES.filter((c) => c.id !== "packages" && c.id !== "full");
+  $("#builder-groups").innerHTML = buildCats.map((cat, ci) => `
+    <details class="group"${ci === 0 ? " open" : ""}>
+      <summary>${esc(cat.title)} <span class="group-count" data-cat="${cat.id}"></span></summary>
+      <div class="chips">
+        ${cat.items.map(([name, w, m], ii) => `
+          <label class="chip">
+            <input type="checkbox" data-cat="${cat.id}" data-w="${w ?? ""}" data-m="${m ?? ""}" data-name="${esc(name)}" value="${cat.id}-${ii}">
+            <span class="chip-name">${esc(name)}</span>
+            <span class="chip-price"></span>
+          </label>`).join("")}
+      </div>
+    </details>`).join("");
+
+  const boxes = $$("#builder-groups input");
+  const who = () => $('input[name="who"]:checked').value;
+
+  const update = () => {
+    const g = who();
+    let sub = 0;
+    const picked = [];
+    boxes.forEach((b) => {
+      const price = b.dataset[g] === "" ? null : Number(b.dataset[g]);
+      const chip = b.closest(".chip");
+      chip.querySelector(".chip-price").textContent = rand(price);
+      b.disabled = price == null;
+      if (b.disabled) b.checked = false;
+      chip.classList.toggle("off", b.disabled);
+      if (b.checked) { sub += price; picked.push([b.dataset.name, price]); }
+    });
+
+    buildCats.forEach((cat) => {
+      const n = boxes.filter((b) => b.dataset.cat === cat.id && b.checked).length;
+      $(`.group-count[data-cat="${cat.id}"]`).textContent = n ? `${n} selected` : "";
+    });
+
+    const n = picked.length;
+    const pct = discountFor(n);
+    const total = pct ? Math.round((sub * (100 - pct)) / 100 / 10) * 10 : sub;
+
+    $("#sum-list").innerHTML = picked.map(([name, p]) => `<li><span>${esc(name)}</span><span>${rand(p)}</span></li>`).join("");
+    $("#sum-count").textContent = n;
+    $("#sum-sub").textContent = rand(sub);
+    $("#sum-disc").textContent = pct ? `−${pct}%` : "—";
+    $("#sum-total").textContent = rand(total);
+
+    const next = PACKAGE_DISCOUNTS.find(([areas]) => areas > n);
+    let hint;
+    if (n === 0) hint = "Choose two or more areas to unlock a discount.";
+    else if (next) hint = `Add ${next[0] - n} more area${next[0] - n > 1 ? "s" : ""} for ${next[1]}% off.`;
+    else hint = `You've reached the maximum ${maxTier[1]}% package discount.`;
+    if (n && pct) hint = `You save ${rand(sub - total)} per session. ` + hint;
+    $("#sum-hint").textContent = hint;
+
+    $("#sum-bar-text").textContent = n
+      ? `${n} area${n > 1 ? "s" : ""} · ${rand(total)}${pct ? ` (−${pct}%)` : ""}`
+      : "";
+    showBar();
+
+    $$("#ladder li").forEach((li) => li.classList.toggle("on", Number(li.dataset.n) === PACKAGE_DISCOUNTS.filter(([a]) => n >= a).pop()?.[0]));
+  };
+
+  // Mobile: floating total while picking, hidden once the summary itself is on screen
+  let pickVisible = false, sumVisible = false;
+  const showBar = () => {
+    $("#sum-bar").hidden = !(pickVisible && !sumVisible && $("#sum-bar-text").textContent);
+  };
+  new IntersectionObserver(([e]) => { pickVisible = e.isIntersecting; showBar(); }).observe($("#builder-groups"));
+  new IntersectionObserver(([e]) => { sumVisible = e.isIntersecting; showBar(); }).observe($("#builder-sum"));
+
+  $("#build").addEventListener("change", update);
+  $("#sum-clear").addEventListener("click", () => { boxes.forEach((b) => (b.checked = false)); update(); });
+  update();
+
   // Visit
   $("#address").innerHTML = SITE.address.map(esc).join("<br>");
   const q = encodeURIComponent(SITE.mapsQuery);
