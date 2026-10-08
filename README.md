@@ -21,6 +21,10 @@ Put photos in the `images` folder with these names and they appear automatically
 
 Landscape photos at least 1600px wide work best.
 
+### Package builder
+
+The "Build your own package" calculator is a **price guide only**. Fresha doesn't accept selected services from an outside website (the basket lives in Fresha's own session), so clients choose their areas again on Fresha when they book. The discount scale is `PACKAGE_DISCOUNTS` in `site-data.js`.
+
 ## Preview locally
 
 ```bash

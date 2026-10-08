@@ -249,6 +249,8 @@ ul.dots li::marker { color: var(--charcoal); }
 .sum-total { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; border-top: 1px solid var(--charcoal); padding-top: .8rem; }
 .sum-total strong { font: 400 2rem var(--serif); }
 .sum-hint { color: var(--muted); font-size: .88rem; margin: .6rem 0 1.2rem; min-height: 2.6em; }
+.sum-notice { background: var(--light); border-left: 3px solid var(--blue-dark); padding: .7rem .9rem; font-size: .85rem; color: var(--muted); margin: 0 0 1.2rem; }
+.sum-notice strong { color: var(--ink); }
 .link-btn { display: block; margin: .8rem auto 0; background: none; border: 0; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; font-size: .85rem; }
 
 .sum-bar { display: none; }
