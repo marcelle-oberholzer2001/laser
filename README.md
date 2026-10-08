@@ -13,7 +13,13 @@ Everything you'd normally change is in **`site-data.js`**:
 
 ### Photos
 
-Put photos in the `images` folder named `studio.jpg` and `treatment.jpg`. They replace the "coming soon" placeholders automatically. Landscape photos around 1600px wide work best.
+Put photos in the `images` folder with these names and they appear automatically:
+
+- `hero.jpg`: the large dark banner at the top (shown behind a dark overlay, so any well-lit photo works). Wide, about 2000px.
+- `studio.jpg`: next to "Where smooth skin begins".
+- `treatment.jpg`: next to "Book your appointment".
+
+Landscape photos at least 1600px wide work best.
 
 ## Preview locally
 
