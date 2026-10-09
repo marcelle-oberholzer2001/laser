@@ -31,7 +31,15 @@ const RESULTS = [
 
 // Client reviews, copied from real client feedback (with their permission).
 // While this list is empty the site shows "coming soon" placeholders.
+// SAMPLE reviews below are for previewing the design only (they show a "Sample" tag).
+// Delete every line with `sample: true` before launch.
 const REVIEWS = [
+  { sample: true, name: "Lindiwe K.", treatment: "Underarms & Hollywood", stars: 5, text: "I was so nervous for my first session, but it was quick and much less sore than waxing. Four sessions in and I hardly have any regrowth." },
+  { sample: true, name: "Megan V.", treatment: "Full Legs", stars: 5, text: "The room is calm and private, and everything was explained before we started. I've stopped carrying a razor in my gym bag!" },
+  { sample: true, name: "Johan B.", treatment: "Back & Shoulders", stars: 5, text: "Should have done this years ago. Professional, on time every visit, and the package price made it very affordable." },
+  { sample: true, name: "Thandi M.", treatment: "Upper Lip & Chin", stars: 5, text: "Booking on Fresha is easy and the sessions take only a few minutes. My skin is so much smoother and no more ingrown hairs." },
+  { sample: true, name: "Carla D.", treatment: "Brazilian", stars: 4, text: "Friendly, discreet and very professional. I'm halfway through my course and already see a huge difference." },
+  { sample: true, name: "Pieter S.", treatment: "Full Beard (incl. neck)", stars: 5, text: "Razor bumps were a daily struggle for me. After a few sessions my neck is clear. Highly recommend." },
   // { name: "Anna M.", treatment: "Full Legs", stars: 5, text: "So quick and comfortable. After four sessions I barely shave anymore!" },
 ];
 

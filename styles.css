@@ -271,6 +271,11 @@ ul.dots li::marker { color: var(--charcoal); }
 
 /* Reviews */
 .reviews { display: grid; gap: 1.4rem; margin-top: 2rem; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); }
+.sample-tag {
+  align-self: flex-start; margin-bottom: .8rem; padding: .2em .6em; border: 1px dashed #b5aea7; color: var(--muted);
+  font-size: .62rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+}
+#reviews-note { margin-top: 1.4rem; }
 .review { margin: 0; background: var(--white); border: 1px solid var(--line); padding: 2rem 1.8rem; display: flex; flex-direction: column; }
 .stars { color: #8c97b8; letter-spacing: .15em; font-size: 1.05rem; margin-bottom: 1rem; }
 .review blockquote { margin: 0 0 1.4rem; font: 400 1.15rem/1.5 var(--serif); flex: 1; }

@@ -198,6 +198,7 @@
   $("#reviews-grid").innerHTML = REVIEWS.length
     ? REVIEWS.map((r) => `
         <figure class="review">
+          ${r.sample ? `<span class="sample-tag">Sample</span>` : ""}
           <div class="stars" aria-label="${r.stars || 5} out of 5 stars">${stars(r.stars || 5)}</div>
           <blockquote>${esc(r.text)}</blockquote>
           <figcaption><strong>${esc(r.name)}</strong>${r.treatment ? `<span>${esc(r.treatment)}</span>` : ""}</figcaption>
@@ -207,6 +208,7 @@
           <div class="stars" aria-hidden="true">☆☆☆☆☆</div>
           <blockquote>Client review coming soon.</blockquote>
         </figure>`).join("");
+  $("#reviews-note").hidden = !REVIEWS.some((r) => r.sample);
 
   // Visit
   $("#address").innerHTML = SITE.address.map(esc).join("<br>");
