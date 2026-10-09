@@ -25,7 +25,7 @@ Landscape photos at least 1600px wide work best.
 
 Both live in `site-data.js`; each has an example line to copy. Until something is added, the site shows "coming soon" placeholders.
 
-- **Before & after:** put the two photos in `images/results/` (e.g. `underarms-before.jpg`, `underarms-after.jpg`, ideally portrait and the same size), then add a line to `RESULTS`:
+- **Before & after:** put the two photos in `images/results/` (e.g. `underarms-before.jpg`, `underarms-after.jpg`, landscape 4:3 and the same size), then add a line to `RESULTS`:
   `{ area: "Underarms", sessions: 6, before: "images/results/underarms-before.jpg", after: "images/results/underarms-after.jpg" },`
 - **Reviews:** add a line to `REVIEWS`, using real client feedback with their permission:
   `{ name: "Anna M.", treatment: "Full Legs", stars: 5, text: "..." },`

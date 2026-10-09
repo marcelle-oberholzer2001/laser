@@ -23,6 +23,9 @@ const SITE = {
 // Before & after photos. Put the photo files in images/results/ and add one line per pair.
 // While this list is empty the site shows "coming soon" placeholders.
 const RESULTS = [
+  { area: "Chin & Neck", sessions: 5, before: "images/results/chin-before.jpg", after: "images/results/chin-after.jpg" },
+  { area: "Back", sessions: 5, before: "images/results/back-before.jpg", after: "images/results/back-after.jpg" },
+  { area: "Underarms", sessions: 4, before: "images/results/underarms-before.jpg", after: "images/results/underarms-after.jpg" },
   // { area: "Underarms", sessions: 6, before: "images/results/underarms-before.jpg", after: "images/results/underarms-after.jpg" },
 ];
 
