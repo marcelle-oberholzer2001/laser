@@ -31,7 +31,7 @@ Both live in `site-data.js`; each has an example line to copy. Until something i
   `{ name: "Anna M.", treatment: "Full Legs", stars: 5, text: "..." },`
   If the review text contains a double quote ("), put a backslash before it (\").
 
-> **Before launch:** the reviews currently in `REVIEWS` are design samples (`sample: true`, shown with a "Sample" tag). Delete them all before the site goes live.
+> **Before launch:** the reviews currently in `REVIEWS` are design samples (`sample: true`, shown with a "Sample" tag). Delete them all before the site goes live. Also fill in the yellow "To fill in" FAQ answers in `index.html` (search for `class="todo"`).
 
 ### Package builder
 
