@@ -21,6 +21,16 @@ Put photos in the `images` folder with these names and they appear automatically
 
 Landscape photos at least 1600px wide work best.
 
+### Before & after photos and reviews
+
+Both live in `site-data.js`; each has an example line to copy. Until something is added, the site shows "coming soon" placeholders.
+
+- **Before & after:** put the two photos in `images/results/` (e.g. `underarms-before.jpg`, `underarms-after.jpg`, ideally portrait and the same size), then add a line to `RESULTS`:
+  `{ area: "Underarms", sessions: 6, before: "images/results/underarms-before.jpg", after: "images/results/underarms-after.jpg" },`
+- **Reviews:** add a line to `REVIEWS`, using real client feedback with their permission:
+  `{ name: "Anna M.", treatment: "Full Legs", stars: 5, text: "..." },`
+  If the review text contains a double quote ("), put a backslash before it (\").
+
 ### Package builder
 
 The "Build your own package" calculator is a **price guide only**. Fresha doesn't accept selected services from an outside website (the basket lives in Fresha's own session), so clients choose their areas again on Fresha when they book. The discount scale is `PACKAGE_DISCOUNTS` in `site-data.js`.
