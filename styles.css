@@ -157,14 +157,6 @@ ul.dots li::marker { color: var(--charcoal); }
 .card ul.dots { color: var(--muted); }
 .card h3 { text-transform: uppercase; font: 600 .95rem var(--sans); letter-spacing: .08em; }
 
-.steps {
-  list-style: none; padding: 0; margin: 2.4rem 0 0;
-  display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
-}
-.steps li { background: var(--white); border: 1px solid var(--line); padding: 1.6rem 1.4rem; }
-.step-n { display: block; font: 400 2rem/1 var(--serif); color: var(--blue-dark); margin-bottom: .8rem; }
-.steps h3 { text-transform: uppercase; font: 600 .95rem var(--sans); letter-spacing: .08em; }
-.steps p { color: var(--muted); margin: 0; font-size: .95rem; }
 
 /* Pricelist */
 .tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin: 2rem 0 1.4rem; }
