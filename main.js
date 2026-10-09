@@ -54,10 +54,13 @@
   };
   const priceCell = (base, areaPct) => {
     if (base == null) return `<td class="na">—</td>`;
-    const now = listPrice(base, areaPct);
-    return now === base
-      ? `<td>${rand(base)}</td>`
-      : `<td><span class="was">${rand(base)}</span>${rand(now)}</td>`;
+    if (course === 1) return `<td>${rand(base)}</td>`;
+    const per = listPrice(base, areaPct);
+    return `<td class="course">
+      <strong>${rand(per * course)}</strong>
+      <span class="per">${rand(per)} / session</span>
+      <span class="save">Save ${rand((base - per) * course)}</span>
+    </td>`;
   };
   const rowsFor = (cat) => cat.items
     .map(([name, w, m, badge]) => {
@@ -76,7 +79,10 @@
     const pct = courseDiscount(course);
     $("#course-note").innerHTML = course === 1
       ? "Prices shown are for a single session."
-      : `Per-session prices when you prepay <strong>${course} sessions (${pct}% off)</strong>. Pay upfront: the per-session price × ${course}.`;
+      : `Showing the <strong>total you pay upfront for ${course} sessions (${pct}% off)</strong>, with the price per session and your total saving underneath.`;
+    $$("#price-panels thead th:not(:first-child)").forEach((th) => {
+      th.textContent = (th.dataset.who ||= th.textContent) + (course === 1 ? "" : ` · ${course}×`);
+    });
   };
 
   PRICE_CATEGORIES.forEach((cat, i) => {
@@ -204,10 +210,11 @@
     $("#sum-disc").textContent = pct ? `−${pct}%` : "—";
     $("#sum-course").textContent = course === 1 ? "Single session" : `${course} sessions · −${cPct}%`;
     $("#sum-all").textContent = totalPct ? `−${totalPct}%${capped ? " (max)" : ""}` : "—";
-    $("#sum-total").textContent = rand(total);
-    $("#sum-upfront-row").hidden = course === 1;
-    $("#sum-upfront-label").textContent = `Pay upfront for ${course} sessions`;
-    $("#sum-upfront").textContent = rand(upfront);
+    // With a course, the upfront total is the headline; per-session price sits underneath.
+    $("#sum-total-label").textContent = course === 1 ? "You pay per session" : `You pay upfront for ${course} sessions`;
+    $("#sum-total").textContent = rand(course === 1 ? total : upfront);
+    $("#sum-per-row").hidden = course === 1;
+    $("#sum-per").textContent = rand(total);
 
     const next = PACKAGE_DISCOUNTS.find(([areas]) => areas > n);
     let hint;
@@ -222,7 +229,7 @@
     $("#sum-hint").textContent = hint;
 
     $("#sum-bar-text").textContent = n
-      ? `${n} area${n > 1 ? "s" : ""} · ${rand(total)}/session${totalPct ? ` (−${totalPct}%)` : ""}`
+      ? `${n} area${n > 1 ? "s" : ""} · ${course === 1 ? `${rand(total)}/session` : `${rand(upfront)} for ${course}`}${totalPct ? ` (−${totalPct}%)` : ""}`
       : "";
     showBar();
 
