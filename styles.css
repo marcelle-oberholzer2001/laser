@@ -158,6 +158,25 @@ ul.dots li::marker { color: var(--charcoal); }
 .card h3 { text-transform: uppercase; font: 600 .95rem var(--sans); letter-spacing: .08em; }
 
 
+/* Course length selector */
+.course-box { margin: 1.8rem 0 0; }
+.course-box.compact { margin: 0 0 1rem; }
+.course-label { font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 .5rem; }
+.course-seg { display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; max-width: 560px; }
+.course-seg button {
+  cursor: pointer; background: var(--white); border: 1px solid var(--line); color: var(--ink);
+  padding: .55rem .2rem; font: 400 .7rem/1.25 var(--sans); display: flex; flex-direction: column; align-items: center;
+}
+.course-seg button:hover { border-color: var(--charcoal); }
+.course-seg button strong { font: 400 1.4rem/1.1 var(--serif); }
+.course-seg button span { color: var(--muted); }
+.course-seg button small { font-size: .74rem; font-weight: 600; color: #6c79a0; margin-top: .15rem; }
+.course-seg button[aria-pressed="true"] span { color: var(--charcoal); }
+.course-seg button[aria-pressed="true"] { background: var(--blue); border-color: var(--blue-dark); color: var(--charcoal); }
+.course-seg button[aria-pressed="true"] small { color: var(--charcoal); }
+.course-note { color: var(--muted); font-size: .9rem; margin: .7rem 0 0; min-height: 1.5em; }
+.course-note strong { color: var(--ink); }
+
 /* Pricelist */
 .tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin: 2rem 0 1.4rem; }
 .tab {
@@ -177,6 +196,7 @@ ul.dots li::marker { color: var(--charcoal); }
 .prices td, .prices thead th:not(:first-child) { text-align: right; white-space: nowrap; width: 7.5em; }
 .prices td { font-weight: 600; font-variant-numeric: tabular-nums; }
 .prices td.na { color: #b5aea7; font-weight: 400; }
+.prices .was { display: block; font-size: .78em; font-weight: 400; color: #9c958e; text-decoration: line-through; }
 .prices tbody tr:hover { background: var(--light); }
 .badge {
   display: inline-block; margin-left: .4em; padding: .2em .6em; background: var(--blue); color: var(--charcoal);
@@ -240,6 +260,9 @@ ul.dots li::marker { color: var(--charcoal); }
 #sum-disc { font-weight: 600; }
 .sum-total { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; border-top: 1px solid var(--charcoal); padding-top: .8rem; }
 .sum-total strong { font: 400 2rem var(--serif); }
+.sum-upfront { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-top: .4rem; padding: .6rem .8rem; background: var(--blue); }
+.sum-upfront span { font-size: .88rem; }
+.sum-upfront strong { font: 400 1.3rem var(--serif); white-space: nowrap; }
 .sum-hint { color: var(--muted); font-size: .88rem; margin: .6rem 0 1.2rem; min-height: 2.6em; }
 .sum-notice { background: var(--light); border-left: 3px solid var(--blue-dark); padding: .7rem .9rem; font-size: .85rem; color: var(--muted); margin: 0 0 1.2rem; }
 .sum-notice strong { color: var(--ink); }

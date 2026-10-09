@@ -33,6 +33,14 @@ Both live in `site-data.js`; each has an example line to copy. Until something i
 
 > **Before launch:** the reviews currently in `REVIEWS` are design samples (`sample: true`, shown with a "Sample" tag). Delete them all before the site goes live. Also fill in the yellow "To fill in" FAQ answers in `index.html` (search for `class="todo"`).
 
+### Discounts
+
+- `PACKAGE_DISCOUNTS`: % off for treating several areas in one visit (2 areas 15% … 7+ areas 40%).
+- `COURSE_DISCOUNTS`: % off for prepaying a course (3 sessions 15%, 6 → 20%, 9 → 25%, 12 → 30%), paid upfront in one payment.
+- `MAX_TOTAL_DISCOUNT`: the two discounts multiply but never go beyond this (45%). Every "up to 45%" on the page follows this number.
+
+Ready-made packages are treated as already having the area discount for the number of areas in their name, so a course on a big package also stops at the cap. Per-session prices are rounded to the nearest R10, and the upfront total is the per-session price × number of sessions.
+
 ### Package builder
 
 The "Build your own package" calculator is a **price guide only**. Fresha doesn't accept selected services from an outside website (the basket lives in Fresha's own session), so clients choose their areas again on Fresha when they book. The discount scale is `PACKAGE_DISCOUNTS` in `site-data.js`.
