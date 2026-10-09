@@ -20,6 +20,18 @@ const SITE = {
   instagram: "",      // handle without @
 };
 
+// Before & after photos. Put the photo files in images/results/ and add one line per pair.
+// While this list is empty the site shows "coming soon" placeholders.
+const RESULTS = [
+  // { area: "Underarms", sessions: 6, before: "images/results/underarms-before.jpg", after: "images/results/underarms-after.jpg" },
+];
+
+// Client reviews, copied from real client feedback (with their permission).
+// While this list is empty the site shows "coming soon" placeholders.
+const REVIEWS = [
+  // { name: "Anna M.", treatment: "Full Legs", stars: 5, text: "So quick and comfortable. After four sessions I barely shave anymore!" },
+];
+
 // Build-your-own package: number of areas → % off.
 // Anything above the last entry gets the last entry's discount.
 const PACKAGE_DISCOUNTS = [

@@ -174,6 +174,40 @@
   $("#sum-clear").addEventListener("click", () => { boxes.forEach((b) => (b.checked = false)); update(); });
   update();
 
+  // Before & after
+  const shot = (src, label, alt) => `
+    <figure class="ba-shot">
+      ${src ? `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" onerror="this.remove()">` : ""}
+      <figcaption>${label}</figcaption>
+    </figure>`;
+  $("#results-grid").innerHTML = (RESULTS.length ? RESULTS : [{}, {}, {}])
+    .map((r) => `
+      <article class="result${r.before ? "" : " placeholder"}">
+        <div class="ba">
+          ${shot(r.before, "Before", `${r.area} before laser hair removal`)}
+          ${shot(r.after, "After", `${r.area} after ${r.sessions || ""} sessions`)}
+        </div>
+        <p class="result-cap">${r.area
+          ? `<strong>${esc(r.area)}</strong>${r.sessions ? ` · ${esc(r.sessions)} sessions` : ""}`
+          : "Before &amp; after photos coming soon"}</p>
+      </article>`)
+    .join("");
+
+  // Reviews
+  const stars = (n) => "★".repeat(n) + "☆".repeat(5 - n);
+  $("#reviews-grid").innerHTML = REVIEWS.length
+    ? REVIEWS.map((r) => `
+        <figure class="review">
+          <div class="stars" aria-label="${r.stars || 5} out of 5 stars">${stars(r.stars || 5)}</div>
+          <blockquote>${esc(r.text)}</blockquote>
+          <figcaption><strong>${esc(r.name)}</strong>${r.treatment ? `<span>${esc(r.treatment)}</span>` : ""}</figcaption>
+        </figure>`).join("")
+    : [1, 2, 3].map(() => `
+        <figure class="review placeholder">
+          <div class="stars" aria-hidden="true">☆☆☆☆☆</div>
+          <blockquote>Client review coming soon.</blockquote>
+        </figure>`).join("");
+
   // Visit
   $("#address").innerHTML = SITE.address.map(esc).join("<br>");
   const q = encodeURIComponent(SITE.mapsQuery);
