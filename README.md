@@ -31,6 +31,8 @@ Both live in `site-data.js`; each has an example line to copy. Until something i
   `{ name: "Anna M.", treatment: "Full Legs", stars: 5, text: "..." },`
   If the review text contains a double quote ("), put a backslash before it (\").
 
+> **Before launch:** the reviews currently in `REVIEWS` are design samples (`sample: true`, shown with a "Sample" tag). Delete them all before the site goes live.
+
 ### Package builder
 
 The "Build your own package" calculator is a **price guide only**. Fresha doesn't accept selected services from an outside website (the basket lives in Fresha's own session), so clients choose their areas again on Fresha when they book. The discount scale is `PACKAGE_DISCOUNTS` in `site-data.js`.
