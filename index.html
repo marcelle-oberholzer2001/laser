@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<a class="announce" href="#build">Build your own package and save up to 40% <strong>| See how</strong></a>
+<a class="announce" href="#prices">Save up to <span class="js-max">45</span>% with packages &amp; prepaid courses <strong>| See prices</strong></a>
 
 <header class="site-header" id="top">
   <div class="wrap header-inner">
@@ -62,7 +62,7 @@
         <li>Consultations available if you'd like one</li>
         <li>Appointments that are never rushed</li>
         <li>Treatments for ladies and gentlemen</li>
-        <li>Packages that save up to 40%</li>
+        <li>Package and prepaid course discounts of up to <span class="js-max">45</span>%</li>
         <li>Easy online booking on Fresha</li>
       </ul>
     </div>
@@ -83,12 +83,18 @@
     <div class="wrap">
       <p class="eyebrow">Treatments &amp; prices</p>
       <h2>Pricelist</h2>
-      <p class="section-intro">Prices are per session. Choose an area to see ladies' and gentlemen's prices.</p>
+      <p class="section-intro">Laser works best as a course of sessions. Prepay a course in one payment and save up to 30%. Choose a course length to see your per-session price.</p>
+
+      <div class="course-box">
+        <p class="course-label">Course length</p>
+        <div class="course-seg" aria-label="Course length"></div>
+        <p class="course-note" id="course-note" aria-live="polite"></p>
+      </div>
 
       <div class="tabs" role="tablist" aria-label="Treatment areas" id="price-tabs"></div>
       <div id="price-panels"></div>
 
-      <p class="note">A dash (—) means the treatment isn't offered for that client. Not sure what you need? Book a consultation and we'll help you plan.</p>
+      <p class="note">A dash (—) means the treatment isn't offered for that client. Courses are paid upfront in one payment. Area and course discounts combine up to a maximum of <span class="js-max">45</span>% off, and prices are rounded to the nearest R10. Not sure what you need? Book a consultation and we'll help you plan.</p>
     </div>
   </section>
 
@@ -96,7 +102,7 @@
     <div class="wrap">
       <p class="eyebrow">Build your own package</p>
       <h2>More areas, bigger savings</h2>
-      <p class="section-intro">Can't find the combination you want? Treat any areas together in one visit and the discount grows with every area you add. Use the calculator below to see your price, then book your areas on Fresha.</p>
+      <p class="section-intro">Can't find the combination you want? Treat any areas together in one visit and the discount grows with every area you add. Prepay a course on top and save even more, up to <span class="js-max">45</span>% in total. Use the calculator below to see your price, then book on Fresha.</p>
 
       <ol class="ladder" id="ladder"></ol>
 
@@ -105,6 +111,10 @@
           <div class="seg" role="radiogroup" aria-label="Prices for">
             <label><input type="radio" name="who" value="w" checked> Ladies</label>
             <label><input type="radio" name="who" value="m"> Gents</label>
+          </div>
+          <div class="course-box compact">
+            <p class="course-label">Course length</p>
+            <div class="course-seg" aria-label="Course length"></div>
           </div>
           <div id="builder-groups"></div>
         </div>
@@ -115,11 +125,14 @@
           <dl class="sum-lines">
             <dt>Areas</dt><dd id="sum-count">0</dd>
             <dt>Normal price</dt><dd id="sum-sub">R 0</dd>
-            <dt>Package discount</dt><dd id="sum-disc">—</dd>
+            <dt>Area discount</dt><dd id="sum-disc">—</dd>
+            <dt>Course</dt><dd id="sum-course">Single session</dd>
+            <dt>Total discount</dt><dd id="sum-all">—</dd>
           </dl>
           <div class="sum-total"><span>You pay per session</span><strong id="sum-total">R 0</strong></div>
+          <div class="sum-upfront" id="sum-upfront-row" hidden><span id="sum-upfront-label">Pay upfront</span><strong id="sum-upfront">R 0</strong></div>
           <p class="sum-hint" id="sum-hint">Choose two or more areas to unlock a discount.</p>
-          <p class="sum-notice"><strong>Price guide only.</strong> Your selection isn't sent to Fresha, so please choose your areas again when you book.</p>
+          <p class="sum-notice"><strong>Price guide only.</strong> Your selection isn't sent to Fresha, so please choose your areas again when you book. Courses are paid upfront in one payment.</p>
           <a class="btn btn-block js-fresha" href="#" target="_blank" rel="noopener">Book on Fresha</a>
           <button type="button" class="link-btn" id="sum-clear">Clear selection</button>
         </aside>
@@ -221,6 +234,10 @@
         <details>
           <summary>Which medications aren't safe with laser?</summary>
           <p>Acne medication such as isotretinoin (Roaccutane or Oratane), cortisone, and some medicines that make skin sensitive to light can all affect treatment. Please tell us about any medication or supplements you take before your session, and check with your doctor if you're unsure.</p>
+        </details>
+        <details>
+          <summary>Do you offer discounts on courses?</summary>
+          <p>Yes. Prepay a course in one payment and save 15% on 3 sessions, 20% on 6, 25% on 9 or 30% on 12. Course discounts also combine with our multi-area package discounts, up to a maximum of <span class="js-max">45</span>% off in total. See the <a href="#prices">pricelist</a> for your exact price.</p>
         </details>
         <details>
           <summary>When can I start my sessions?</summary>

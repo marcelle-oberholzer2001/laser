@@ -54,6 +54,18 @@ const PACKAGE_DISCOUNTS = [
   [7, 40],
 ];
 
+// Prepaid courses: number of sessions paid upfront → % off. [1, 0] is a single session.
+const COURSE_DISCOUNTS = [
+  [1, 0],
+  [3, 15],
+  [6, 20],
+  [9, 25],
+  [12, 30],
+];
+
+// Area and course discounts combine, but never beyond this total % off.
+const MAX_TOTAL_DISCOUNT = 45;
+
 const PRICE_CATEGORIES = [
   {
     id: "face",

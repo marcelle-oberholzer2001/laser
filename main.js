@@ -23,9 +23,61 @@
     })
   );
 
+  // Discounts
+  const round10 = (n) => Math.round(n / 10) * 10;
+  const tierFor = (table, n) => {
+    let pct = 0;
+    table.forEach(([min, p]) => { if (n >= min) pct = p; });
+    return pct;
+  };
+  const discountFor = (areas) => tierFor(PACKAGE_DISCOUNTS, areas);
+  const courseDiscount = (sessions) => tierFor(COURSE_DISCOUNTS, sessions);
+  // Area and course discounts multiply, capped at MAX_TOTAL_DISCOUNT.
+  const combined = (areaPct, coursePct) =>
+    Math.min(MAX_TOTAL_DISCOUNT, Math.round((100 - ((100 - areaPct) * (100 - coursePct)) / 100) * 10) / 10);
+  // Ready-made packages already include the area discount for their number of areas.
+  const packageAreas = (name) => name.replace(/\(.*?\)/g, "").split(/,|&|\+/).length;
+
+  let course = 1;
+  $$(".js-max").forEach((el) => (el.textContent = MAX_TOTAL_DISCOUNT));
+
   // Price list
   const tabs = $("#price-tabs");
   const panels = $("#price-panels");
+
+  // Per-session price for a list price, given the area discount it already includes.
+  const listPrice = (base, areaPct) => {
+    if (base == null) return null;
+    if (course === 1) return base;
+    const total = combined(areaPct, courseDiscount(course));
+    return round10((base * (100 - total)) / (100 - areaPct));
+  };
+  const priceCell = (base, areaPct) => {
+    if (base == null) return `<td class="na">—</td>`;
+    const now = listPrice(base, areaPct);
+    return now === base
+      ? `<td>${rand(base)}</td>`
+      : `<td><span class="was">${rand(base)}</span>${rand(now)}</td>`;
+  };
+  const rowsFor = (cat) => cat.items
+    .map(([name, w, m, badge]) => {
+      const areaPct = cat.id === "packages" ? discountFor(packageAreas(name)) : 0;
+      return `
+        <tr>
+          <th scope="row">${esc(name)}${badge ? ` <span class="badge">${esc(badge)}</span>` : ""}</th>
+          ${priceCell(w, areaPct)}
+          ${priceCell(m, areaPct)}
+        </tr>`;
+    })
+    .join("");
+
+  const renderPrices = () => {
+    PRICE_CATEGORIES.forEach((cat) => { $(`#panel-${cat.id} tbody`).innerHTML = rowsFor(cat); });
+    const pct = courseDiscount(course);
+    $("#course-note").innerHTML = course === 1
+      ? "Prices shown are for a single session."
+      : `Per-session prices when you prepay <strong>${course} sessions (${pct}% off)</strong>. Pay upfront: the per-session price × ${course}.`;
+  };
 
   PRICE_CATEGORIES.forEach((cat, i) => {
     const tab = document.createElement("button");
@@ -38,15 +90,6 @@
     tab.tabIndex = i === 0 ? 0 : -1;
     tab.textContent = cat.title;
     tabs.appendChild(tab);
-
-    const rows = cat.items
-      .map(([name, w, m, badge]) => `
-        <tr>
-          <th scope="row">${esc(name)}${badge ? ` <span class="badge">${esc(badge)}</span>` : ""}</th>
-          <td class="${w == null ? "na" : ""}">${rand(w)}</td>
-          <td class="${m == null ? "na" : ""}">${rand(m)}</td>
-        </tr>`)
-      .join("");
 
     const panel = document.createElement("div");
     panel.className = "panel";
@@ -61,7 +104,7 @@
       </div>
       <table class="prices">
         <thead><tr><th scope="col">Area</th><th scope="col">Ladies</th><th scope="col">Gents</th></tr></thead>
-        <tbody>${rows}</tbody>
+        <tbody></tbody>
       </table>
       <a class="btn btn-line js-fresha" href="${esc(SITE.freshaUrl)}" target="_blank" rel="noopener">Book ${esc(cat.title)} on Fresha</a>`;
     panels.appendChild(panel);
@@ -89,13 +132,24 @@
     if (n) { e.preventDefault(); n.focus(); select(n); }
   });
 
+  // Course selectors (pricelist and builder share one choice)
+  $$(".course-seg").forEach((seg) => {
+    seg.innerHTML = COURSE_DISCOUNTS.map(([n, p]) => `
+      <button type="button" data-n="${n}" aria-pressed="${n === course}" aria-label="${n === 1 ? "Single session" : `${n} sessions, ${p}% off`}">
+        <strong>${n}</strong><span>${n === 1 ? "session" : "sessions"}</span><small>${p ? `−${p}%` : "single"}</small>
+      </button>`).join("");
+    seg.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      course = Number(b.dataset.n);
+      $$(".course-seg button").forEach((x) => x.setAttribute("aria-pressed", String(Number(x.dataset.n) === course)));
+      renderPrices();
+      update();
+    });
+  });
+
   // Build-your-own package
   const maxTier = PACKAGE_DISCOUNTS[PACKAGE_DISCOUNTS.length - 1];
-  const discountFor = (n) => {
-    let pct = 0;
-    PACKAGE_DISCOUNTS.forEach(([areas, p]) => { if (n >= areas) pct = p; });
-    return pct;
-  };
 
   $("#ladder").innerHTML = PACKAGE_DISCOUNTS.map(([n, p]) => `
     <li data-n="${n}"><strong>${p}%</strong><span>${n}${n === maxTier[0] ? "+" : ""} areas</span></li>`).join("");
@@ -138,24 +192,37 @@
 
     const n = picked.length;
     const pct = discountFor(n);
-    const total = pct ? Math.round((sub * (100 - pct)) / 100 / 10) * 10 : sub;
+    const cPct = courseDiscount(course);
+    const totalPct = n ? combined(pct, cPct) : 0;
+    const capped = n > 0 && totalPct === MAX_TOTAL_DISCOUNT && 100 - ((100 - pct) * (100 - cPct)) / 100 > MAX_TOTAL_DISCOUNT;
+    const total = totalPct ? round10((sub * (100 - totalPct)) / 100) : sub;
+    const upfront = total * course;
 
     $("#sum-list").innerHTML = picked.map(([name, p]) => `<li><span>${esc(name)}</span><span>${rand(p)}</span></li>`).join("");
     $("#sum-count").textContent = n;
     $("#sum-sub").textContent = rand(sub);
     $("#sum-disc").textContent = pct ? `−${pct}%` : "—";
+    $("#sum-course").textContent = course === 1 ? "Single session" : `${course} sessions · −${cPct}%`;
+    $("#sum-all").textContent = totalPct ? `−${totalPct}%${capped ? " (max)" : ""}` : "—";
     $("#sum-total").textContent = rand(total);
+    $("#sum-upfront-row").hidden = course === 1;
+    $("#sum-upfront-label").textContent = `Pay upfront for ${course} sessions`;
+    $("#sum-upfront").textContent = rand(upfront);
 
     const next = PACKAGE_DISCOUNTS.find(([areas]) => areas > n);
     let hint;
     if (n === 0) hint = "Choose two or more areas to unlock a discount.";
+    else if (capped) hint = `You've reached the maximum ${MAX_TOTAL_DISCOUNT}% discount.`;
     else if (next) hint = `Add ${next[0] - n} more area${next[0] - n > 1 ? "s" : ""} for ${next[1]}% off.`;
-    else hint = `You've reached the maximum ${maxTier[1]}% package discount.`;
-    if (n && pct) hint = `You save ${rand(sub - total)} per session. ` + hint;
+    else hint = `You've reached the maximum ${maxTier[1]}% area discount.`;
+    if (n && totalPct) {
+      const saved = (sub - total) * course;
+      hint = `You save ${rand(saved)}${course > 1 ? ` over ${course} sessions` : " per session"}. ` + hint;
+    }
     $("#sum-hint").textContent = hint;
 
     $("#sum-bar-text").textContent = n
-      ? `${n} area${n > 1 ? "s" : ""} · ${rand(total)}${pct ? ` (−${pct}%)` : ""}`
+      ? `${n} area${n > 1 ? "s" : ""} · ${rand(total)}/session${totalPct ? ` (−${totalPct}%)` : ""}`
       : "";
     showBar();
 
@@ -172,6 +239,7 @@
 
   $("#build").addEventListener("change", update);
   $("#sum-clear").addEventListener("click", () => { boxes.forEach((b) => (b.checked = false)); update(); });
+  renderPrices();
   update();
 
   // Before & after
