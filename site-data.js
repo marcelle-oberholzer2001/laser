@@ -209,4 +209,59 @@ const PRICE_CATEGORIES = [
       ["Face, Neck, Underarms, Full Arms, Full Legs & Brazilian", ["Full Face", "Neck", "Underarms", "Full Arms", "Full Legs", "Brazilian — sides, top & labia"]],
     ],
   },
+
+  // ── Other laser treatments ──────────────────────────────────────────────
+  // `single: true` = one price per treatment (no ladies/gents), and no area,
+  // course or package discounts. These don't appear in the package builder.
+  {
+    id: "tattoo",
+    title: "Tattoo Removal",
+    single: true,
+    tagline: "Priced per session by the size of the tattoo.",
+    items: [
+      ["Tattoo 1–4 cm", 280],
+      ["Tattoo 5–10 cm", 350],
+      ["Tattoo 11–20 cm", 455],
+      ["Tattoo 21–30 cm", 595],
+    ],
+  },
+  {
+    id: "pmu",
+    title: "PMU Removal",
+    single: true,
+    tagline: "Fading unwanted permanent makeup. Priced per session.",
+    items: [
+      ["Permanent Makeup / Eyebrow Tattoo Removal", 445],
+      ["Lip / Eyeliner Tattoo Removal", 400],
+    ],
+  },
+  {
+    id: "toenail",
+    title: "Toenail Fungus",
+    single: true,
+    tagline: "Laser treatment for fungal nail infections.",
+    items: [
+      ["Per nail", 150],
+      ["Multi-nail / course", 650],
+    ],
+  },
+  {
+    id: "skin",
+    title: "Skin Treatments",
+    single: true,
+    tagline: "Laser treatments for pigmentation, texture and a fresher complexion. Priced per session.",
+    items: [
+      ["Age Spot Treatment", 200],
+      ["Scar Treatment", 200],
+      ["Birthmark / Pigmentation Treatment", 200],
+      ["Freckles / Pigmentation Treatment", 200],
+      ["Pore Shrinking / Texture Improvement", 200],
+      ["Fine Lines & Wrinkles Treatment", 200],
+      ["Skin Rejuvenation", 665],
+      ["Black Diamond Laser Treatment™ — face & neck", 488],
+      ["Black Diamond Laser Treatment™ — face, neck & chest", 620],
+      ["Clear Diamond Laser Treatment™ — face & neck", 500],
+      ["Clear Diamond Laser Treatment™ — face, neck & chest", 550],
+    ],
+  },
 ];
