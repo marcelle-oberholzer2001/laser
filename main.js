@@ -282,6 +282,27 @@
   renderPrices();
   update();
 
+  // Aftercare tabs (hair / tattoo & PMU / skin)
+  const careTabs = $$("#care-tabs .tab");
+  const showCare = (tab) => careTabs.forEach((t) => {
+    const on = t === tab;
+    t.setAttribute("aria-selected", String(on));
+    t.tabIndex = on ? 0 : -1;
+    $("#" + t.getAttribute("aria-controls")).hidden = !on;
+  });
+  $("#care-tabs").addEventListener("click", (e) => {
+    const t = e.target.closest(".tab");
+    if (t) showCare(t);
+  });
+  $("#care-tabs").addEventListener("keydown", (e) => {
+    const i = careTabs.indexOf(document.activeElement);
+    if (i < 0 || (e.key !== "ArrowRight" && e.key !== "ArrowLeft")) return;
+    e.preventDefault();
+    const n = careTabs[(i + (e.key === "ArrowRight" ? 1 : careTabs.length - 1)) % careTabs.length];
+    n.focus();
+    showCare(n);
+  });
+
   // Before & after
   const shot = (src, label, alt) => `
     <figure class="ba-shot">
