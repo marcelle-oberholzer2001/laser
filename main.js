@@ -38,7 +38,7 @@
   // Ready-made packages: price each one from its single areas and the multi-area discount,
   // then store it as [name, ladies, gents, badge] like every other row.
   const single = {};
-  PRICE_CATEGORIES.filter((c) => c.id !== "packages")
+  PRICE_CATEGORIES.filter((c) => c.id !== "packages" && !c.single)
     .forEach((c) => c.items.forEach(([name, w, m]) => (single[name] = [w, m])));
   const packageAreaCount = {};
   const pkgCat = PRICE_CATEGORIES.find((c) => c.id === "packages");
@@ -85,7 +85,10 @@
       <span class="save">Save ${rand((base - per) * course)}</span>
     </td>`;
   };
-  const rowsFor = (cat) => cat.items
+  const rowsFor = (cat) => cat.single
+    ? cat.items.map(([name, price]) => `
+        <tr><th scope="row">${esc(name)}</th><td>${rand(price)}</td></tr>`).join("")
+    : cat.items
     .map(([name, w, m, badge]) => {
       const areaPct = cat.id === "packages" ? discountFor(packageAreas(name)) : 0;
       return `
@@ -103,7 +106,7 @@
     $("#course-note").innerHTML = course === 1
       ? "Prices shown are for a single session."
       : `Showing the <strong>total you pay upfront for ${course} sessions (${pct}% off)</strong>, with the price per session and your total saving underneath.`;
-    $$("#price-panels thead th:not(:first-child)").forEach((th) => {
+    $$("#price-panels table:not(.single) thead th:not(:first-child)").forEach((th) => {
       th.textContent = (th.dataset.who ||= th.textContent) + (course === 1 ? "" : ` · ${course}×`);
     });
   };
@@ -131,10 +134,13 @@
         <h3>${esc(cat.title)}</h3>
         <p>${esc(cat.tagline)}</p>
       </div>
-      <table class="prices">
-        <thead><tr><th scope="col">Area</th><th scope="col">Ladies</th><th scope="col">Gents</th></tr></thead>
+      <table class="prices${cat.single ? " single" : ""}">
+        <thead><tr>${cat.single
+          ? `<th scope="col">Treatment</th><th scope="col">Price</th>`
+          : `<th scope="col">Area</th><th scope="col">Ladies</th><th scope="col">Gents</th>`}</tr></thead>
         <tbody></tbody>
       </table>
+      ${cat.single ? `<p class="note">Package and course discounts don't apply to these treatments.</p>` : ""}
       <a class="btn btn-line js-fresha" href="${esc(SITE.freshaUrl)}" target="_blank" rel="noopener">Book ${esc(cat.title)} on Fresha</a>`;
     panels.appendChild(panel);
   });
@@ -146,6 +152,9 @@
       t.tabIndex = on ? 0 : -1;
       $("#" + t.getAttribute("aria-controls")).hidden = !on;
     });
+    // Course lengths don't apply to single-price treatments (tattoo, skin…), so hide the selector there.
+    const cat = PRICE_CATEGORIES.find((c) => "tab-" + c.id === tab.id);
+    $("#prices .course-box").hidden = !!(cat && cat.single);
   };
   tabs.addEventListener("click", (e) => {
     const t = e.target.closest(".tab");
@@ -184,7 +193,7 @@
   $("#ladder").innerHTML = PACKAGE_DISCOUNTS.map(([n, p]) => `
     <li data-n="${n}"><strong>${p}%</strong><span>${n}${n === maxTier[0] ? "+" : ""} areas</span></li>`).join("");
 
-  const buildCats = PRICE_CATEGORIES.filter((c) => c.id !== "packages" && c.id !== "full");
+  const buildCats = PRICE_CATEGORIES.filter((c) => c.id !== "packages" && c.id !== "full" && !c.single);
   $("#builder-groups").innerHTML = buildCats.map((cat, ci) => `
     <details class="group"${ci === 0 ? " open" : ""}>
       <summary>${esc(cat.title)} <span class="group-count" data-cat="${cat.id}"></span></summary>

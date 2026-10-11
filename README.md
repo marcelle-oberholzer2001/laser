@@ -10,6 +10,7 @@ Everything you'd normally change is in **`site-data.js`**:
 - `phone`, `whatsapp`, `email`, `instagram`: leave as `""` to hide
 - `hours`: opening hours shown under "Find us"
 - `PRICE_CATEGORIES`: each item is `[name, ladies price, gents price, optional badge]`. Use `null` for "not offered".
+  Categories with `single: true` (Tattoo Removal, PMU Removal, Toenail Fungus, Skin Treatments) have one price per item: `[name, price]`. They get no area, course or package discounts and aren't in the package builder.
   Ready-made **packages** are different: each is `[name, [the single areas it's made of], optional badge]`, and its price is calculated automatically (see Discounts).
 
 ### Photos
