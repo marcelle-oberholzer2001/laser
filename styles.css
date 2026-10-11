@@ -217,7 +217,7 @@ ul.dots li::marker { color: var(--charcoal); }
 }
 
 /* Build your own */
-.ladder { list-style: none; padding: 0; margin: 2rem 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: .6rem; }
+.ladder { list-style: none; padding: 0; margin: 2rem 0; display: grid; grid-template-columns: repeat(var(--steps, 6), 1fr); gap: .6rem; }
 @media (max-width: 640px) { .ladder { grid-template-columns: repeat(3, 1fr); } }
 .ladder li { background: var(--white); border: 1px solid var(--line); padding: 1rem .5rem; text-align: center; transition: background .2s; }
 .ladder strong { display: block; font: 400 1.9rem/1.1 var(--serif); }

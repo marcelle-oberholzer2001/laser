@@ -35,11 +35,34 @@
   // Area and course discounts multiply, capped at MAX_TOTAL_DISCOUNT.
   const combined = (areaPct, coursePct) =>
     Math.min(MAX_TOTAL_DISCOUNT, Math.round((100 - ((100 - areaPct) * (100 - coursePct)) / 100) * 10) / 10);
-  // Ready-made packages already include the area discount for their number of areas.
-  const packageAreas = (name) => name.replace(/\(.*?\)/g, "").split(/,|&|\+/).length;
+  // Ready-made packages: price each one from its single areas and the multi-area discount,
+  // then store it as [name, ladies, gents, badge] like every other row.
+  const single = {};
+  PRICE_CATEGORIES.filter((c) => c.id !== "packages")
+    .forEach((c) => c.items.forEach(([name, w, m]) => (single[name] = [w, m])));
+  const packageAreaCount = {};
+  const pkgCat = PRICE_CATEGORIES.find((c) => c.id === "packages");
+  pkgCat.items = pkgCat.items.map(([name, parts, badge]) => {
+    packageAreaCount[name] = parts.length;
+    const priceFor = (g) => {
+      const vals = parts.map((p) => single[p][g]);
+      if (vals.some((v) => v == null)) return null;
+      return round10((vals.reduce((a, b) => a + b, 0) * (100 - discountFor(parts.length))) / 100);
+    };
+    return [name, priceFor(0), priceFor(1), badge];
+  });
+  const packageAreas = (name) => packageAreaCount[name];
 
   let course = 1;
-  $$(".js-max").forEach((el) => (el.textContent = MAX_TOTAL_DISCOUNT));
+  // "Up to X%" texts show the best discount actually reachable with the current tables.
+  const maxArea = PACKAGE_DISCOUNTS[PACKAGE_DISCOUNTS.length - 1][1];
+  const maxCourse = COURSE_DISCOUNTS[COURSE_DISCOUNTS.length - 1][1];
+  $$(".js-max").forEach((el) => (el.textContent = Math.floor(combined(maxArea, maxCourse))));
+  $$(".js-course-max").forEach((el) => (el.textContent = maxCourse));
+  $$(".js-course-list").forEach((el) => {
+    const parts = COURSE_DISCOUNTS.filter(([n]) => n > 1).map(([n, p]) => `${p}% on ${n}`);
+    el.textContent = parts.slice(0, -1).join(", ") + " or " + parts[parts.length - 1];
+  });
 
   // Price list
   const tabs = $("#price-tabs");
@@ -157,6 +180,7 @@
   // Build-your-own package
   const maxTier = PACKAGE_DISCOUNTS[PACKAGE_DISCOUNTS.length - 1];
 
+  $("#ladder").style.setProperty("--steps", PACKAGE_DISCOUNTS.length);
   $("#ladder").innerHTML = PACKAGE_DISCOUNTS.map(([n, p]) => `
     <li data-n="${n}"><strong>${p}%</strong><span>${n}${n === maxTier[0] ? "+" : ""} areas</span></li>`).join("");
 

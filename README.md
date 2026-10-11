@@ -10,6 +10,7 @@ Everything you'd normally change is in **`site-data.js`**:
 - `phone`, `whatsapp`, `email`, `instagram`: leave as `""` to hide
 - `hours`: opening hours shown under "Find us"
 - `PRICE_CATEGORIES`: each item is `[name, ladies price, gents price, optional badge]`. Use `null` for "not offered".
+  Ready-made **packages** are different: each is `[name, [the single areas it's made of], optional badge]`, and its price is calculated automatically (see Discounts).
 
 ### Photos
 
@@ -35,11 +36,13 @@ Both live in `site-data.js`; each has an example line to copy. Until something i
 
 ### Discounts
 
-- `PACKAGE_DISCOUNTS`: % off for treating several areas in one visit (2 areas 15% … 7+ areas 40%).
-- `COURSE_DISCOUNTS`: % off for prepaying a course (3 sessions 15%, 6 → 20%, 9 → 25%, 12 → 30%), paid upfront in one payment.
-- `MAX_TOTAL_DISCOUNT`: the two discounts multiply but never go beyond this (45%). Every "up to 45%" on the page follows this number.
+- `PACKAGE_DISCOUNTS`: % off for several areas in one visit (2 areas 5%, 3 → 10%, 4 → 15%, 5 → 20%, 6+ → 25%).
+- `COURSE_DISCOUNTS`: extra % off for prepaying a course (3 sessions 3%, 6 → 5%, 9 → 7%, 12 → 10%), paid upfront in one payment.
+- `MAX_TOTAL_DISCOUNT`: the two discounts multiply but never go beyond this (45%). With the current tables the best reachable is 32%, so the cap isn't hit.
 
-Ready-made packages are treated as already having the area discount for the number of areas in their name, so a course on a big package also stops at the cap. Per-session prices are rounded to the nearest R10, and the upfront total is the per-session price × number of sessions.
+**Ready-made package prices** = the ladies' (or gents') prices of their single areas added up × (100% − the area discount for that many areas), rounded to the nearest R10. Change `PACKAGE_DISCOUNTS` or a single-area price and every package updates by itself. If any area in a package isn't offered for gents, the package isn't either.
+
+Every "up to …%" on the page shows the best discount reachable with the current tables. Per-session prices are rounded to the nearest R10, and the upfront total is the per-session price × number of sessions.
 
 ### Package builder
 

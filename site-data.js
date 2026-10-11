@@ -43,24 +43,23 @@ const REVIEWS = [
   // { name: "Anna M.", treatment: "Full Legs", stars: 5, text: "So quick and comfortable. After four sessions I barely shave anymore!" },
 ];
 
-// Build-your-own package: number of areas → % off.
-// Anything above the last entry gets the last entry's discount.
+// Multi-area discount: number of areas → % off. Used by the ready-made packages and the
+// build-your-own calculator. Anything above the last entry gets the last entry's discount.
 const PACKAGE_DISCOUNTS = [
-  [2, 15],
-  [3, 20],
-  [4, 25],
-  [5, 30],
-  [6, 35],
-  [7, 40],
+  [2, 5],
+  [3, 10],
+  [4, 15],
+  [5, 20],
+  [6, 25],
 ];
 
-// Prepaid courses: number of sessions paid upfront → % off. [1, 0] is a single session.
+// Prepaid courses: number of sessions paid upfront → extra % off. [1, 0] is a single session.
 const COURSE_DISCOUNTS = [
   [1, 0],
-  [3, 15],
-  [6, 20],
-  [9, 25],
-  [12, 30],
+  [3, 3],
+  [6, 5],
+  [9, 7],
+  [12, 10],
 ];
 
 // Area and course discounts combine, but never beyond this total % off.
@@ -172,39 +171,42 @@ const PRICE_CATEGORIES = [
     id: "packages",
     title: "Packages",
     tagline: "Popular combinations, ready to book. Want a different mix? Build your own below.",
+    // Each package lists the single areas it is made of. Prices are worked out automatically:
+    // sum of those areas × (100% − PACKAGE_DISCOUNTS for that many areas), rounded to the nearest R10.
+    // A dash (not offered) on any area makes the whole package not offered for that client.
     items: [
-      ["Lip & Chin", 240, 320],
-      ["Lip, Chin & Sideburns (lower face)", 360, 480],
-      ["Lower Face & Neck", 520, 670],
-      ["Face & Neck", 620, 710],
-      ["Underarms & Lip", 360, 450, "Popular"],
-      ["Lower Face & Underarm", 540, 690],
-      ["Underarms & Bikini", 510, null],
-      ["Underarms & Brazilian", 620, null],
-      ["Underarms & Hollywood", 660, null, "Popular"],
-      ["Stomach Line & Brazilian", 490, null],
-      ["Stomach Line & Hollywood", 530, null],
-      ["Underarm & Half Leg", 910, 1000],
-      ["Underarm & Full Leg", 1190, 1280],
-      ["Full Legs & Brazilian", 1340, null],
-      ["Full Legs & Hollywood", 1380, null],
-      ["Underarms, Hollywood & Half Legs", 1260, null],
-      ["Underarm, Brazilian & Full Legs", 1480, null],
-      ["Underarms, Hollywood & Full Legs", 1520, null],
-      ["Hands & Fingers", 140, 220],
-      ["Feet & Toes", 140, 220],
-      ["Full Arms & Underarms", 660, 740],
-      ["Full Arms & Full Legs", 1380, 1470],
-      ["Chest & Stomach", 660, 740],
-      ["Underarms, Chest & Stomach", 840, 960],
-      ["Half Arms, Chest & Stomach", 900, 1020],
-      ["Full Arms, Chest & Stomach", 1020, 1140],
-      ["Back & Shoulders", 850, 940],
-      ["Neck (back) & Back", 750, 840],
-      ["Neck, Back & Shoulders", 1000, 1120],
-      ["Chest, Stomach & Back", 1180, 1300],
-      ["Half Arms, Chest, Stomach, Back & Full Legs", 2070, 2240],
-      ["Face, Neck, Underarms, Full Arms, Full Legs & Brazilian", 2000, null],
+      ["Lip & Chin", ["Upper Lip", "Chin"]],
+      ["Lip, Chin & Sideburns (lower face)", ["Upper Lip", "Chin", "Sideburns"]],
+      ["Lower Face & Neck", ["Upper Lip", "Chin", "Sideburns", "Neck"]],
+      ["Face & Neck", ["Full Face", "Neck"]],
+      ["Underarms & Lip", ["Underarms", "Upper Lip"], "Popular"],
+      ["Lower Face & Underarm", ["Upper Lip", "Chin", "Sideburns", "Underarms"]],
+      ["Underarms & Bikini", ["Underarms", "Bikini — sides & top"]],
+      ["Underarms & Brazilian", ["Underarms", "Brazilian — sides, top & labia"]],
+      ["Underarms & Hollywood", ["Underarms", "Hollywood"], "Popular"],
+      ["Stomach Line & Brazilian", ["Navel / Stomach Line", "Brazilian — sides, top & labia"]],
+      ["Stomach Line & Hollywood", ["Navel / Stomach Line", "Hollywood"]],
+      ["Underarm & Half Leg", ["Underarms", "Lower Legs (incl. knee)"]],
+      ["Underarm & Full Leg", ["Underarms", "Full Legs"]],
+      ["Full Legs & Brazilian", ["Full Legs", "Brazilian — sides, top & labia"]],
+      ["Full Legs & Hollywood", ["Full Legs", "Hollywood"]],
+      ["Underarms, Hollywood & Half Legs", ["Underarms", "Hollywood", "Lower Legs (incl. knee)"]],
+      ["Underarm, Brazilian & Full Legs", ["Underarms", "Brazilian — sides, top & labia", "Full Legs"]],
+      ["Underarms, Hollywood & Full Legs", ["Underarms", "Hollywood", "Full Legs"]],
+      ["Hands & Fingers", ["Hands", "Fingers"]],
+      ["Feet & Toes", ["Feet", "Toes"]],
+      ["Full Arms & Underarms", ["Full Arms", "Underarms"]],
+      ["Full Arms & Full Legs", ["Full Arms", "Full Legs"]],
+      ["Chest & Stomach", ["Chest", "Stomach"]],
+      ["Underarms, Chest & Stomach", ["Underarms", "Chest", "Stomach"]],
+      ["Half Arms, Chest & Stomach", ["Half Arms", "Chest", "Stomach"]],
+      ["Full Arms, Chest & Stomach", ["Full Arms", "Chest", "Stomach"]],
+      ["Back & Shoulders", ["Full Back", "Shoulders"]],
+      ["Neck (back) & Back", ["Full Neck — back", "Full Back"]],
+      ["Neck, Back & Shoulders", ["Neck", "Full Back", "Shoulders"]],
+      ["Chest, Stomach & Back", ["Chest", "Stomach", "Full Back"]],
+      ["Half Arms, Chest, Stomach, Back & Full Legs", ["Half Arms", "Chest", "Stomach", "Full Back", "Full Legs"]],
+      ["Face, Neck, Underarms, Full Arms, Full Legs & Brazilian", ["Full Face", "Neck", "Underarms", "Full Arms", "Full Legs", "Brazilian — sides, top & labia"]],
     ],
   },
 ];
