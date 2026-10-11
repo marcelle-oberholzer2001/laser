@@ -151,7 +151,13 @@
     <div class="wrap">
       <p class="eyebrow">Prepare &amp; aftercare</p>
       <h2>Before and after your session</h2>
-      <div class="cards two">
+      <div class="tabs" role="tablist" aria-label="Aftercare by treatment" id="care-tabs">
+        <button type="button" class="tab" role="tab" id="care-tab-hair" aria-controls="care-hair" aria-selected="true">Hair removal</button>
+        <button type="button" class="tab" role="tab" id="care-tab-tattoo" aria-controls="care-tattoo" aria-selected="false" tabindex="-1">Tattoo &amp; PMU removal</button>
+        <button type="button" class="tab" role="tab" id="care-tab-skin" aria-controls="care-skin" aria-selected="false" tabindex="-1">Skin treatments</button>
+      </div>
+
+      <div class="cards two care-panel" id="care-hair" role="tabpanel" aria-labelledby="care-tab-hair">
         <article class="card">
           <h3>Before</h3>
           <ul class="dots">
@@ -175,6 +181,57 @@
           </ul>
         </article>
       </div>
+
+      <div class="cards two care-panel" id="care-tattoo" role="tabpanel" aria-labelledby="care-tab-tattoo" hidden>
+        <article class="card">
+          <h3>Before</h3>
+          <ul class="dots">
+            <li>Keep the area out of the sun and away from tanning beds for at least 2–4 weeks. No self-tanner on the area.</li>
+            <li>Arrive with clean skin: no creams, lotions or make-up on the area (for brows, lips or eyeliner, come without make-up).</li>
+            <li>Tell us about any medication you take, including acne medication and antibiotics, as some make skin sensitive to light.</li>
+            <li>For lip PMU removal, let us know if you get cold sores. You may need medication from your doctor beforehand.</li>
+            <li>We don't treat during pregnancy or over broken, sunburnt or irritated skin.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>After</h3>
+          <ul class="dots">
+            <li>Redness, swelling, a raised or whitish look and even small blisters are normal. Most of it settles within a few days to 2 weeks.</li>
+            <li>Keep the area clean and dry, and follow the healing cream and dressing advice you're given.</li>
+            <li>Don't pick, scratch or pop blisters. Let any scabs fall off on their own.</li>
+            <li>Avoid swimming pools, saunas, steam and hot baths until the skin has healed.</li>
+            <li>No make-up on treated brows, lips or eyelids until healed.</li>
+            <li>Keep the area out of the sun and use SPF 50 once it has healed.</li>
+            <li>The ink keeps fading for weeks after each session, so sessions are spaced about 6–8 weeks apart.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="cards two care-panel" id="care-skin" role="tabpanel" aria-labelledby="care-tab-skin" hidden>
+        <article class="card">
+          <h3>Before</h3>
+          <ul class="dots">
+            <li>Stop retinol, acids (AHA/BHA) and scrubs on the area 3–5 days before.</li>
+            <li>Avoid the sun, tanning beds and self-tanner for 2 weeks before.</li>
+            <li>No peels, waxing or other facial treatments on the area for 1–2 weeks before.</li>
+            <li>Arrive with clean skin and no make-up on the area.</li>
+            <li>Tell us about any medication and skin conditions, and whether you get cold sores.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>After</h3>
+          <ul class="dots">
+            <li>Mild redness and warmth are normal and usually settle within a few hours to a day.</li>
+            <li>Dark spots may look darker first, then flake off within 1–2 weeks. Don't pick them.</li>
+            <li>Use a gentle cleanser and moisturiser, and wait 24 hours before wearing make-up.</li>
+            <li>Skip retinol, acids and scrubs for 3–5 days.</li>
+            <li>Skip saunas, steam and hard exercise for 24–48 hours.</li>
+            <li>Wear SPF 50 every day and stay out of direct sun to protect your results.</li>
+          </ul>
+        </article>
+      </div>
+
+      <p class="note">These are general guidelines. Your therapist will give you instructions for your treatment, and please contact us if anything worries you after a session.</p>
     </div>
   </section>
 
