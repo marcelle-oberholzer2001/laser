@@ -1,6 +1,6 @@
 # Laser at Bloom
 
-One-page static site for Laser at Bloom (laser hair removal, SilverLakes, Pretoria). Bookings go to Bloom's Fresha page.
+One-page static site for Laser at Bloom (laser hair removal, tattoo & PMU removal, skin and toenail treatments; SilverLakes, Pretoria). Bookings go to Bloom's Fresha page.
 
 ## Editing
 
