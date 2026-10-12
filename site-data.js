@@ -168,6 +168,7 @@ const PRICE_CATEGORIES = [
     // Calculated like the packages: [name, { ladies: [areas], gents: [areas] }, badge, % off].
     // The % here (30) replaces the multi-area table for this item.
     calculated: true,
+    showSaving: true,   // show "Separately R… / Save R…" under the price
     items: [
       ["Full Body (incl. face & neck)", {
         ladies: ["Full Face", "Neck", "Underarms", "Full Arms", "Chest", "Stomach", "Full Back", "Full Legs", "Hollywood"],

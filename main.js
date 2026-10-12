@@ -43,16 +43,18 @@
   PRICE_CATEGORIES.filter((c) => !isCalculated(c) && !c.single)
     .forEach((c) => c.items.forEach(([name, w, m]) => (single[name] = [w, m])));
   const areaPctOf = {};   // name → [ladies %, gents %] already included in the listed price
+  const fullPriceOf = {}; // name → [ladies, gents] if the areas were booked separately (for "save" lines)
   PRICE_CATEGORIES.filter(isCalculated).forEach((cat) => {
     cat.items = cat.items.map(([name, parts, badge, pct]) => {
       const byGender = Array.isArray(parts) ? [parts, parts] : [parts.ladies, parts.gents];
       const pcts = byGender.map((list) => (pct != null ? pct : discountFor(list.length)));
       areaPctOf[name] = pcts;
-      const priceFor = (g) => {
-        const vals = byGender[g].map((p) => single[p][g]);
-        if (vals.some((v) => v == null)) return null;
-        return round10((vals.reduce((a, b) => a + b, 0) * (100 - pcts[g])) / 100);
-      };
+      const sums = byGender.map((list, g) => {
+        const vals = list.map((p) => single[p][g]);
+        return vals.some((v) => v == null) ? null : vals.reduce((a, b) => a + b, 0);
+      });
+      if (cat.showSaving) fullPriceOf[name] = sums;
+      const priceFor = (g) => (sums[g] == null ? null : round10((sums[g] * (100 - pcts[g])) / 100));
       return [name, priceFor(0), priceFor(1), badge];
     });
   });
@@ -79,14 +81,21 @@
     const total = combined(areaPct, courseDiscount(course));
     return round10((base * (100 - total)) / (100 - areaPct));
   };
-  const priceCell = (base, areaPct) => {
+  // `full` (optional) = what the areas cost booked separately; the saving is then shown against that.
+  const priceCell = (base, areaPct, full) => {
     if (base == null) return `<td class="na">—</td>`;
-    if (course === 1) return `<td>${rand(base)}</td>`;
+    if (course === 1) {
+      return full == null ? `<td>${rand(base)}</td>` : `<td class="course">
+        <strong>${rand(base)}</strong>
+        <span class="per">Separately ${rand(full)}</span>
+        <span class="save">Save ${rand(full - base)}</span>
+      </td>`;
+    }
     const per = listPrice(base, areaPct);
     return `<td class="course">
       <strong>${rand(per * course)}</strong>
       <span class="per">${rand(per)} / session</span>
-      <span class="save">Save ${rand((base - per) * course)}</span>
+      <span class="save">Save ${rand(((full == null ? base : full) - per) * course)}</span>
     </td>`;
   };
   const rowsFor = (cat) => cat.single
@@ -95,11 +104,12 @@
     : cat.items
     .map(([name, w, m, badge]) => {
       const [pctW, pctM] = areaPctOf[name] || [0, 0];
+      const [fullW, fullM] = fullPriceOf[name] || [];
       return `
         <tr>
           <th scope="row">${esc(name)}${badge ? ` <span class="badge">${esc(badge)}</span>` : ""}</th>
-          ${priceCell(w, pctW)}
-          ${priceCell(m, pctM)}
+          ${priceCell(w, pctW, fullW)}
+          ${priceCell(m, pctM, fullM)}
         </tr>`;
     })
     .join("");
