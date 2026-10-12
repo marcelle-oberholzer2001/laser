@@ -180,6 +180,7 @@ const PRICE_CATEGORIES = [
     id: "packages",
     title: "Packages",
     tagline: "Popular combinations, ready to book. Want a different mix? Build your own below.",
+    showSaving: true,   // show "Separately R… / Save R…" under each price
     // Each package lists the single areas it is made of. Prices are worked out automatically:
     // sum of those areas × (100% − PACKAGE_DISCOUNTS for that many areas), rounded to the nearest R10.
     // A dash (not offered) on any area makes the whole package not offered for that client.
