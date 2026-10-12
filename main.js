@@ -35,27 +35,31 @@
   // Area and course discounts multiply, capped at MAX_TOTAL_DISCOUNT.
   const combined = (areaPct, coursePct) =>
     Math.min(MAX_TOTAL_DISCOUNT, Math.round((100 - ((100 - areaPct) * (100 - coursePct)) / 100) * 10) / 10);
-  // Ready-made packages: price each one from its single areas and the multi-area discount,
-  // then store it as [name, ladies, gents, badge] like every other row.
+  // Calculated items (ready-made packages and Full Body): price each from its single areas and
+  // the multi-area discount (or the item's own %), then store it as [name, ladies, gents, badge].
+  // Parts are either one list for both, or { ladies: [...], gents: [...] }.
+  const isCalculated = (c) => c.id === "packages" || c.calculated;
   const single = {};
-  PRICE_CATEGORIES.filter((c) => c.id !== "packages" && !c.single)
+  PRICE_CATEGORIES.filter((c) => !isCalculated(c) && !c.single)
     .forEach((c) => c.items.forEach(([name, w, m]) => (single[name] = [w, m])));
-  const packageAreaCount = {};
-  const pkgCat = PRICE_CATEGORIES.find((c) => c.id === "packages");
-  pkgCat.items = pkgCat.items.map(([name, parts, badge]) => {
-    packageAreaCount[name] = parts.length;
-    const priceFor = (g) => {
-      const vals = parts.map((p) => single[p][g]);
-      if (vals.some((v) => v == null)) return null;
-      return round10((vals.reduce((a, b) => a + b, 0) * (100 - discountFor(parts.length))) / 100);
-    };
-    return [name, priceFor(0), priceFor(1), badge];
+  const areaPctOf = {};   // name → [ladies %, gents %] already included in the listed price
+  PRICE_CATEGORIES.filter(isCalculated).forEach((cat) => {
+    cat.items = cat.items.map(([name, parts, badge, pct]) => {
+      const byGender = Array.isArray(parts) ? [parts, parts] : [parts.ladies, parts.gents];
+      const pcts = byGender.map((list) => (pct != null ? pct : discountFor(list.length)));
+      areaPctOf[name] = pcts;
+      const priceFor = (g) => {
+        const vals = byGender[g].map((p) => single[p][g]);
+        if (vals.some((v) => v == null)) return null;
+        return round10((vals.reduce((a, b) => a + b, 0) * (100 - pcts[g])) / 100);
+      };
+      return [name, priceFor(0), priceFor(1), badge];
+    });
   });
-  const packageAreas = (name) => packageAreaCount[name];
 
   let course = 1;
   // "Up to X%" texts show the best discount actually reachable with the current tables.
-  const maxArea = PACKAGE_DISCOUNTS[PACKAGE_DISCOUNTS.length - 1][1];
+  const maxArea = Math.max(PACKAGE_DISCOUNTS[PACKAGE_DISCOUNTS.length - 1][1], ...Object.values(areaPctOf).flat());
   const maxCourse = COURSE_DISCOUNTS[COURSE_DISCOUNTS.length - 1][1];
   $$(".js-max").forEach((el) => (el.textContent = Math.floor(combined(maxArea, maxCourse))));
   $$(".js-course-max").forEach((el) => (el.textContent = maxCourse));
@@ -90,12 +94,12 @@
         <tr><th scope="row">${esc(name)}</th><td>${rand(price)}</td></tr>`).join("")
     : cat.items
     .map(([name, w, m, badge]) => {
-      const areaPct = cat.id === "packages" ? discountFor(packageAreas(name)) : 0;
+      const [pctW, pctM] = areaPctOf[name] || [0, 0];
       return `
         <tr>
           <th scope="row">${esc(name)}${badge ? ` <span class="badge">${esc(badge)}</span>` : ""}</th>
-          ${priceCell(w, areaPct)}
-          ${priceCell(m, areaPct)}
+          ${priceCell(w, pctW)}
+          ${priceCell(m, pctM)}
         </tr>`;
     })
     .join("");
