@@ -39,7 +39,9 @@ Both live in `site-data.js`; each has an example line to copy. Until something i
 
 - `PACKAGE_DISCOUNTS`: % off for several areas in one visit (2 areas 5%, 3 → 10%, 4 → 15%, 5 → 20%, 6+ → 25%).
 - `COURSE_DISCOUNTS`: extra % off for prepaying a course (3 sessions 3%, 6 → 5%, 9 → 7%, 12 → 10%), paid upfront in one payment.
-- `MAX_TOTAL_DISCOUNT`: the two discounts multiply but never go beyond this (45%). With the current tables the best reachable is 32%, so the cap isn't hit.
+- `MAX_TOTAL_DISCOUNT`: the two discounts multiply but never go beyond this (45%). With the current settings the best reachable is 37% (Full Body 30% + a 12-session course), so the cap isn't hit.
+
+**Full Body** is calculated the same way from its own area list (face and neck included), but at its own 30% instead of the table.
 
 **Ready-made package prices** = the ladies' (or gents') prices of their single areas added up × (100% − the area discount for that many areas), rounded to the nearest R10. Change `PACKAGE_DISCOUNTS` or a single-area price and every package updates by itself. If any area in a package isn't offered for gents, the package isn't either.
 

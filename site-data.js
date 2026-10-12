@@ -164,8 +164,16 @@ const PRICE_CATEGORIES = [
   {
     id: "full",
     title: "Full Body",
-    tagline: "Everything, in one appointment.",
-    items: [["Full Body", 2280, 2480]],
+    tagline: "Everything in one appointment: face, neck, underarms, arms, chest, stomach, back and legs, plus Hollywood for ladies.",
+    // Calculated like the packages: [name, { ladies: [areas], gents: [areas] }, badge, % off].
+    // The % here (30) replaces the multi-area table for this item.
+    calculated: true,
+    items: [
+      ["Full Body (incl. face & neck)", {
+        ladies: ["Full Face", "Neck", "Underarms", "Full Arms", "Chest", "Stomach", "Full Back", "Full Legs", "Hollywood"],
+        gents: ["Full Face", "Neck", "Underarms", "Full Arms", "Chest", "Stomach", "Full Back", "Full Legs"],
+      }, "Best value", 30],
+    ],
   },
   {
     id: "packages",
