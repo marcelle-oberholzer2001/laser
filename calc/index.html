@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Laser Prices</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#231f20">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Laser Prices">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-512.png" type="image/png">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="stylesheet" href="calc.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Laser Prices</h1>
+    <button type="button" id="clear" class="link">Clear</button>
+  </header>
+
+  <main>
+    <section class="block">
+      <h2>Client</h2>
+      <div class="seg two" id="who">
+        <button type="button" data-g="w" aria-pressed="true">Female</button>
+        <button type="button" data-g="m" aria-pressed="false">Male</button>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Sessions</h2>
+      <div class="seg" id="course"></div>
+    </section>
+
+    <section class="block">
+      <h2>Areas</h2>
+      <div id="groups"></div>
+    </section>
+  </main>
+
+  <footer class="total" id="total">
+    <div class="lines" id="lines"></div>
+    <div class="big">
+      <span id="big-label">Select areas</span>
+      <strong id="big">R 0</strong>
+    </div>
+    <div class="small" id="small"></div>
+  </footer>
+
+  <script src="../site-data.js"></script>
+  <script src="calc.js"></script>
+</body>
+</html>
