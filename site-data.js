@@ -29,6 +29,20 @@ const RESULTS = [
   // { area: "Underarms", sessions: 6, before: "images/results/underarms-before.jpg", after: "images/results/underarms-after.jpg" },
 ];
 
+// Black Diamond Laser Treatment™ before & after photos (from the SL Lasers™ pamphlet).
+// `sessions` is the number of treatments; leave it out when the pamphlet doesn't say.
+const BD = "images/results/black-diamond/";
+const BLACK_DIAMOND_RESULTS = [
+  { area: "Acne", sessions: 3, before: BD + "acne-2-before.jpg", after: BD + "acne-2-after.jpg" },
+  { area: "Acne", sessions: 2, before: BD + "acne-3-before.jpg", after: BD + "acne-3-after.jpg" },
+  { area: "Acne", before: BD + "acne-1-before.jpg", after: BD + "acne-1-after.jpg" },
+  { area: "Pigmentation & dark spots", sessions: 4, before: BD + "pigmentation-1-before.jpg", after: BD + "pigmentation-1-after.jpg" },
+  { area: "Pigmentation & dark spots", sessions: 2, before: BD + "pigmentation-3-before.jpg", after: BD + "pigmentation-3-after.jpg" },
+  { area: "Pigmentation & dark spots", before: BD + "pigmentation-2-before.jpg", after: BD + "pigmentation-2-after.jpg" },
+  { area: "Skin rejuvenation", before: BD + "rejuvenation-1-before.jpg", after: BD + "rejuvenation-1-after.jpg" },
+  { area: "Fine lines & wrinkles", before: BD + "fine-lines-1-before.jpg", after: BD + "fine-lines-1-after.jpg" },
+];
+
 // Client reviews, copied from real client feedback (with their permission).
 // While this list is empty the site shows "coming soon" placeholders.
 // SAMPLE reviews below are for previewing the design only (they show a "Sample" tag).

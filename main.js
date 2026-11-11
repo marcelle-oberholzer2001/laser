@@ -336,6 +336,23 @@
       </article>`)
     .join("");
 
+  // Black Diamond Laser Treatment™: results and prices
+  $("#bd-results").innerHTML = BLACK_DIAMOND_RESULTS
+    .map((r) => `
+      <article class="result">
+        <div class="ba">
+          ${shot(r.before, "Before", `${r.area} before the Black Diamond Laser Treatment`)}
+          ${shot(r.after, "After", `${r.area} after ${r.sessions ? `${r.sessions} treatments` : "treatment"}`)}
+        </div>
+        <p class="result-cap"><strong>${esc(r.area)}</strong>${r.sessions ? ` · after ${esc(r.sessions)} treatments` : ""}</p>
+      </article>`)
+    .join("");
+  const bdPrices = (PRICE_CATEGORIES.find((c) => c.id === "skin")?.items || [])
+    .filter(([name]) => name.startsWith("Black Diamond"));
+  $("#bd-prices").innerHTML = bdPrices
+    .map(([name, price]) => `<li><span>${esc(name.split("—")[1]?.trim() || name)}</span><strong>${rand(price)}</strong></li>`)
+    .join("");
+
   // Reviews
   const stars = (n) => "★".repeat(n) + "☆".repeat(5 - n);
   $("#reviews-grid").innerHTML = REVIEWS.length
